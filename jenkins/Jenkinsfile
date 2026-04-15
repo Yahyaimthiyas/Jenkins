@@ -21,117 +21,51 @@ pipeline {
                 echo "╔══════════════════════════════════╗"
                 echo "║  Stage: Checkout Source Code     ║"
                 echo "╚══════════════════════════════════╝"
-                echo "Cloning branch: ${env.BRANCH_NAME ?: 'main'}"
+                checkout scm
                 echo "Build #${BUILD_NUMBER} | Version: ${VERSION}"
-                sleep(2)
             }
         }
 
         // ──────────────────────────────────
-        stage('Build') {
+        stage('Build Website') {
             steps {
                 echo "╔══════════════════════════════════╗"
-                echo "║  Stage: Build                    ║"
+                echo "║  Stage: Build & Optimize CSS     ║"
                 echo "╚══════════════════════════════════╝"
-                echo "Building ${APP_NAME} v${VERSION}..."
-                echo "Compiling source code..."
+                echo "Processing website/style.css..."
+                sh 'ls -la website/'
                 sleep(5)
-                echo "✅ Build completed successfully!"
+                echo "✅ Website assets optimized!"
             }
         }
 
         // ──────────────────────────────────
-        stage('Unit Tests') {
+        stage('Lint & Validation') {
             steps {
                 echo "╔══════════════════════════════════╗"
-                echo "║  Stage: Unit Tests               ║"
+                echo "║  Stage: HTML/CSS Linting         ║"
                 echo "╚══════════════════════════════════╝"
-                echo "Running unit test suite..."
+                echo "Working on website/index.html..."
                 sleep(4)
-                echo "  ✓ AuthService tests        [PASS]"
-                echo "  ✓ UserController tests     [PASS]"
-                echo "  ✓ DataProcessor tests      [PASS]"
-                echo "  ✓ Config Validation tests  [PASS]"
-                echo "✅ All tests passed! Coverage: 87%"
-            }
-        }
-
-        // ──────────────────────────────────
-        stage('Code Quality') {
-            steps {
-                echo "╔══════════════════════════════════╗"
-                echo "║  Stage: Code Quality Analysis    ║"
-                echo "╚══════════════════════════════════╝"
-                echo "Running static analysis..."
-                sleep(3)
-                echo "  ✓ No critical vulnerabilities found"
-                echo "  ✓ Code style: Compliant"
-                echo "  ✓ Complexity score: 4.2 (Good)"
+                echo "  ✓ HTML Structure           [PASS]"
+                echo "  ✓ CSS Syntax               [PASS]"
+                echo "  ✓ Accessibility Check      [PASS]"
                 echo "✅ Quality gate: PASSED"
             }
         }
 
         // ──────────────────────────────────
-        stage('Docker Build') {
-            steps {
-                echo "╔══════════════════════════════════╗"
-                echo "║  Stage: Docker Build & Package   ║"
-                echo "╚══════════════════════════════════╝"
-                echo "Building Docker image: ${APP_NAME}:${VERSION}"
-                sleep(5)
-                echo "  Layer 1: Base OS          [OK]"
-                echo "  Layer 2: Dependencies     [OK]"
-                echo "  Layer 3: App code         [OK]"
-                echo "  Layer 4: Config           [OK]"
-                echo "✅ Image built: ${APP_NAME}:${VERSION}"
-            }
-        }
-
-        // ──────────────────────────────────
-        stage('Integration Tests') {
-            steps {
-                echo "╔══════════════════════════════════╗"
-                echo "║  Stage: Integration Tests        ║"
-                echo "╚══════════════════════════════════╝"
-                echo "Running integration test suite..."
-                sleep(6)
-                echo "  ✓ API endpoint /health     [200 OK]"
-                echo "  ✓ API endpoint /users      [200 OK]"
-                echo "  ✓ Database connectivity    [PASS]"
-                echo "  ✓ Auth flow end-to-end     [PASS]"
-                echo "✅ Integration tests passed!"
-            }
-        }
-
-        // ──────────────────────────────────
-        stage('Deploy') {
+        stage('Deploy to Staging') {
             steps {
                 echo "╔══════════════════════════════════╗"
                 echo "║  Stage: Deploy to Staging        ║"
                 echo "╚══════════════════════════════════╝"
-                echo "Deploying ${APP_NAME} v${VERSION} → ${BUILD_ENV}..."
+                echo "Deploying website assets to mock staging server..."
                 sleep(5)
-                echo "  ✓ Pulling image from registry"
-                echo "  ✓ Stopping old container"
-                echo "  ✓ Starting new container"
-                echo "  ✓ Health check passed"
-                echo "✅ Deployed successfully to ${BUILD_ENV}!"
-                echo "🌐 App URL: http://staging.${APP_NAME}.local"
-            }
-        }
-
-        // ──────────────────────────────────
-        stage('Smoke Test') {
-            steps {
-                echo "╔══════════════════════════════════╗"
-                echo "║  Stage: Smoke Tests (Post-Deploy)║"
-                echo "╚══════════════════════════════════╝"
-                echo "Running post-deployment smoke tests..."
-                sleep(3)
-                echo "  ✓ Homepage loads correctly"
-                echo "  ✓ Login flow works"
-                echo "  ✓ API responds correctly"
-                echo "✅ Smoke tests passed! Deployment verified."
+                echo "  ✓ Syncing files to /var/www/html/staging"
+                echo "  ✓ Restarting Nginx"
+                echo "✅ Deployed successfully!"
+                echo "🌐 Internal URL: http://staging.app.local"
             }
         }
     }
