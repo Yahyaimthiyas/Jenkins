@@ -96,7 +96,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "jenkins_builds_last_build_result_ordinal",
+          "expr": "default_jenkins_builds_last_build_result_ordinal",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
@@ -120,7 +120,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "jenkins_builds_last_build_duration_milliseconds / 1000",
+          "expr": "default_jenkins_builds_last_build_duration_milliseconds / 1000",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
@@ -144,7 +144,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "sum(jenkins_builds_total) by (job_name)",
+          "expr": "sum(default_jenkins_builds_total) by (job_name)",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
@@ -170,7 +170,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "100 * (sum(jenkins_builds_total{result=\"SUCCESS\"}) / sum(jenkins_builds_total))",
+          "expr": "100 * (sum(default_jenkins_builds_total{result=\"SUCCESS\"}) / sum(default_jenkins_builds_total))",
           "legendFormat": "Success Rate",
           "refId": "A"
         }
@@ -194,7 +194,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "jenkins_builds_last_build_duration_milliseconds / 1000",
+          "expr": "default_jenkins_builds_last_build_duration_milliseconds / 1000",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
@@ -218,7 +218,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "rate(jenkins_builds_total[5m])",
+          "expr": "rate(default_jenkins_builds_total[5m])",
           "legendFormat": "{{job_name}} — {{result}}",
           "refId": "A"
         }
@@ -241,7 +241,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "jenkins_builds_last_build_result_ordinal",
+          "expr": "default_jenkins_builds_last_build_result_ordinal",
           "legendFormat": "{{job_name}}",
           "instant": true,
           "refId": "A"
@@ -262,13 +262,13 @@
       {
         "current": {},
         "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-        "definition": "label_values(jenkins_builds_total, job_name)",
+        "definition": "label_values(default_jenkins_builds_total, job_name)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "job",
         "options": [],
-        "query": { "query": "label_values(jenkins_builds_total, job_name)", "refId": "StandardVariableQuery" },
+        "query": { "query": "label_values(default_jenkins_builds_total, job_name)", "refId": "StandardVariableQuery" },
         "refresh": 2,
         "regex": "",
         "sort": 1,
