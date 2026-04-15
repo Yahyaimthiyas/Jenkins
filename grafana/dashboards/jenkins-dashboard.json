@@ -69,7 +69,7 @@
   "links": [],
   "panels": [
     {
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -95,15 +95,15 @@
       "type": "stat",
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "default_jenkins_builds_last_build_result_ordinal",
+          "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
+          "expr": "jenkins_builds_last_build_result_ordinal",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
     },
     {
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -119,15 +119,15 @@
       "type": "stat",
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "default_jenkins_builds_last_build_duration_milliseconds / 1000",
+          "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
+          "expr": "jenkins_builds_last_build_duration_milliseconds / 1000",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
     },
     {
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -143,15 +143,15 @@
       "type": "stat",
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "sum(default_jenkins_builds_total) by (job_name)",
+          "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
+          "expr": "sum(jenkins_builds_total) by (job_name)",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
     },
     {
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -169,15 +169,15 @@
       "type": "gauge",
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "100 * (sum(default_jenkins_builds_total{result=\"SUCCESS\"}) / sum(default_jenkins_builds_total))",
+          "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
+          "expr": "100 * (sum(jenkins_builds_total{result=\"SUCCESS\"}) / sum(jenkins_builds_total))",
           "legendFormat": "Success Rate",
           "refId": "A"
         }
       ]
     },
     {
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -193,15 +193,15 @@
       "type": "timeseries",
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "default_jenkins_builds_last_build_duration_milliseconds / 1000",
+          "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
+          "expr": "jenkins_builds_last_build_duration_milliseconds / 1000",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
     },
     {
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -217,15 +217,15 @@
       "type": "timeseries",
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "rate(default_jenkins_builds_total[5m])",
+          "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
+          "expr": "rate(jenkins_builds_total[5m])",
           "legendFormat": "{{job_name}} — {{result}}",
           "refId": "A"
         }
       ]
     },
     {
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
       "fieldConfig": {
         "defaults": { "custom": { "align": "auto", "displayMode": "auto" }, "unit": "short" },
         "overrides": [
@@ -240,8 +240,8 @@
       "type": "table",
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-          "expr": "default_jenkins_builds_last_build_result_ordinal",
+          "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
+          "expr": "jenkins_builds_last_build_result_ordinal",
           "legendFormat": "{{job_name}}",
           "instant": true,
           "refId": "A"
@@ -261,14 +261,14 @@
     "list": [
       {
         "current": {},
-        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
-        "definition": "label_values(default_jenkins_builds_total, job_name)",
+        "datasource": { "type": "prometheus", "uid": "prometheus_ds" },
+        "definition": "label_values(jenkins_builds_total, job_name)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "job",
         "options": [],
-        "query": { "query": "label_values(default_jenkins_builds_total, job_name)", "refId": "StandardVariableQuery" },
+        "query": { "query": "label_values(jenkins_builds_total, job_name)", "refId": "StandardVariableQuery" },
         "refresh": 2,
         "regex": "",
         "sort": 1,

@@ -35,7 +35,6 @@ unclassified:
     countNotBuiltBuilds: true
     countSuccessfulBuilds: true
     countUnstableBuilds: true
-    defaultNamespace: default
     fetchTestResults: true
     jobAttributeName: jenkins_job
     path: prometheus
