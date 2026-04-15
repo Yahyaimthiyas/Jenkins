@@ -10,4 +10,5 @@ RUN jenkins-plugin-cli --plugins \
     prometheus \
     configuration-as-code \
     job-dsl \
-    pipeline-stage-view
+    pipeline-stage-view \
+    timestamper
