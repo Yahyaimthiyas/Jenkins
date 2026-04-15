@@ -1,0 +1,84 @@
+jenkins:
+  systemMessage: |
+    ╔══════════════════════════════════════════════════╗
+    ║     Jenkins CI/CD + Prometheus Monitoring        ║
+    ║     DevOps Mini Project — Configured via CasC    ║
+    ╚══════════════════════════════════════════════════╝
+
+  # Number of parallel builds
+  numExecutors: 4
+
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: admin
+          password: admin123
+          properties:
+            - mailer:
+                emailAddress: admin@cicd-demo.local
+
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+  remotingSecurity:
+    enabled: true
+
+# ── Plugin: Prometheus Metrics ────────────────────────
+unclassified:
+  prometheusConfiguration:
+    collectDiskUsage: true
+    collectNodeStatus: true
+    countAbortedBuilds: true
+    countFailedBuilds: true
+    countNotBuiltBuilds: true
+    countSuccessfulBuilds: true
+    countUnstableBuilds: true
+    defaultNamespace: default
+    fetchTestResults: true
+    jobAttributeName: jenkins_job
+    path: prometheus
+    useAuthenticatedEndpoint: false
+    processingDisabledBuilds: false
+
+  # Global environment variables
+  globalNodeProperties:
+    - envVars:
+        env:
+          - key: PROJECT_NAME
+            value: cicd-demo
+          - key: TEAM
+            value: devops
+          - key: GRAFANA_URL
+            value: http://localhost:3000
+          - key: PROMETHEUS_URL
+            value: http://localhost:9090
+
+jobs:
+  - script: |
+      pipelineJob('cicd-demo-pipeline') {
+        description('Sample CI/CD pipeline that generates Prometheus metrics')
+        definition {
+          cpsScmFlowDefinition {
+            scm {
+              gitSCM {
+                userRemoteConfigs {
+                  userRemoteConfig {
+                    url('https://github.com/your-username/cicd-monitoring-project')
+                  }
+                }
+                branches {
+                  branchSpec {
+                    name('*/main')
+                  }
+                }
+              }
+            }
+            scriptPath('jenkins/Jenkinsfile')
+          }
+        }
+        triggers {
+          scm('H/5 * * * *')
+        }
+      }

@@ -1,0 +1,38 @@
+# Git ignore for CI/CD Monitoring Project
+
+# Docker volumes (generated at runtime)
+volumes/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Environment files (never commit secrets)
+.env
+.env.local
+.env.*.local
+
+# Temp files
+*.tmp
+*.temp
+
+# Jenkins home (when mounted locally)
+jenkins_home/
+
+# Prometheus data
+prometheus_data/
+
+# Grafana data
+grafana_data/

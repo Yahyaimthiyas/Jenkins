@@ -1,0 +1,43 @@
+groups:
+  - name: jenkins_alerts
+    rules:
+
+      # ── Build Failure Alert ───────────────────────────────
+      - alert: JenkinsBuildFailed
+        expr: jenkins_builds_last_build_result_ordinal{} == 2
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Jenkins build FAILED 🔴"
+          description: "Job '{{ $labels.job_name }}' last build FAILED. Check Jenkins immediately."
+
+      # ── Build Duration Too Long ───────────────────────────
+      - alert: JenkinsBuildSlow
+        expr: jenkins_builds_last_build_duration_milliseconds > 300000
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Jenkins build taking too long ⚠️"
+          description: "Job '{{ $labels.job_name }}' took more than 5 minutes."
+
+      # ── No Recent Builds ─────────────────────────────────
+      - alert: JenkinsNoBuilds
+        expr: jenkins_builds_total == 0
+        for: 30m
+        labels:
+          severity: info
+        annotations:
+          summary: "No Jenkins builds detected 📭"
+          description: "Jenkins has not run any builds in the last 30 minutes."
+
+      # ── Jenkins Down ─────────────────────────────────────
+      - alert: JenkinsDown
+        expr: up{job="jenkins"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Jenkins is DOWN 🚨"
+          description: "Jenkins instance is unreachable. Prometheus cannot scrape metrics."

@@ -1,0 +1,36 @@
+global:
+  scrape_interval: 15s          # How often to scrape targets
+  evaluation_interval: 15s      # How often to evaluate rules
+  scrape_timeout: 10s
+
+# Load alerting rules
+rule_files:
+  - "alerts.yml"
+
+# Alertmanager configuration (optional – extend later)
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets: ['alertmanager:9093']
+
+scrape_configs:
+
+  # ── Prometheus self-monitoring ────────────────────────────
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # ── Jenkins metrics (via Prometheus Metrics Plugin) ───────
+  - job_name: 'jenkins'
+    metrics_path: '/prometheus'
+    scheme: http
+    static_configs:
+      - targets: ['jenkins:8080']
+    # If Jenkins requires authentication uncomment below:
+    # basic_auth:
+    #   username: 'admin'
+    #   password: 'admin'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'jenkins-local'
